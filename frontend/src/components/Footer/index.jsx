@@ -1,6 +1,9 @@
+import './Footer.css'
 function Footer() {
-    return(
-     <h1>Bank</h1>
+    return (
+        <footer class="footer">
+            <p class="footer-text">Copyright 2020 Argent Bank</p>
+        </footer>
     )
- }
- export default Footer
+}
+export default Footer
