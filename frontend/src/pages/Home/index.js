@@ -1,6 +1,12 @@
+import Banner from "../../components/Banner"
+import FeaturesList from "../../components/FeaturesList"
+
 function Home() {
    return(
-    <h1>Bank</h1>
+    <main>
+      <Banner></Banner>
+      <FeaturesList></FeaturesList>
+    </main>
    )
 }
 export default Home
