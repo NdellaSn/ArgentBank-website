@@ -1,4 +1,5 @@
 
+import './FeatureItem.css'
 
 function FeatureItem({ icon, titre, description }) {
     return (
