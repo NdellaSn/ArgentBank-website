@@ -1,9 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { selectLogin } from "../utils/selectors";
 
 export const onLogin = (username, password) => {
 
     return async (dispatch, getState) => {
         const urlServer = "http://localhost:3001/api/v1"
+
+        if (selectLogin(getState()).isConnected) {
+            return;
+        }
 
         if (username === '' || password === '') {
             console.warn('username ou password pas correct')
@@ -26,12 +31,10 @@ export const onLogin = (username, password) => {
             const responseData = await reponse.json()
             if (reponse.status === 200) {
                 const token = responseData.body.token
-                console.log(token);
-                dispatch(logIn(token));
+                dispatch(signIn(token));
             }
             else {
                 dispatch(rejected(responseData.body))
-                console.log(responseData.body);
 
             }
         } catch (error) {
@@ -54,15 +57,15 @@ const initialState = {
 
 
 const loginSlice = createSlice({
-    name: 'connexion',
+    name: 'login',
     initialState: initialState,
     reducers: {
-        logIn: (draft, action) => {
+        signIn: (draft, action) => {
             draft.isConnected = true;
             draft.token = action.payload;
             draft.error = null;
         },
-        logOut: (draft, action) => {
+        singOut: (draft, action) => {
             draft.isConnected = false;
             draft.token = null;
             draft.error = null;
@@ -78,7 +81,7 @@ const loginSlice = createSlice({
 
 
 const { actions, reducer } = loginSlice;
-export const { logIn, logOut, rejected } = actions;
+export const { signIn, singOut, rejected } = actions;
 
 export default reducer;
 

@@ -1,43 +1,37 @@
+import { useSelector } from 'react-redux';
 import './User.css'
+import { selectLogin } from '../../utils/selectors';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import Acount from '../../components/Acount';
+
+
+
 function User() {
-    return(
-        <main className="main bg-dark">
+  const login = useSelector(selectLogin);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!login.isConnected) {
+      navigate("/login");
+    }
+
+  }, [login, navigate])
+
+
+  return (
+    <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />Tony Jarvis!</h1>
         <button className="edit-button">Edit Name</button>
       </div>
       <h2 className="sr-only">Accounts</h2>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-          <p className="account-amount">$2,082.79</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-          <p className="account-amount">$10,928.42</p>
-          <p className="account-amount-description">Available Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
-      <section className="account">
-        <div className="account-content-wrapper">
-          <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-          <p className="account-amount">$184.30</p>
-          <p className="account-amount-description">Current Balance</p>
-        </div>
-        <div className="account-content-wrapper cta">
-          <button className="transaction-button">View transactions</button>
-        </div>
-      </section>
+
+      <Acount title='Argent Bank Checking (x8349)' amount='$2,082.79' description='Available Balance' />
+      <Acount title='Argent Bank Savings (x6712)' amount='$10,928.42' description='Available Balance' />
+      <Acount title='Argent Bank Credit Card (x8349)' amount='$184.30' description='Current Balance' />
+  
     </main>
-    )
+  )
 }
 export default User

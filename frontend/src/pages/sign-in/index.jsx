@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './signIn.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { onLogin } from "../../features/login";
 import { useDispatch, useSelector } from "react-redux";
 import { selectLogin } from "../../utils/selectors";
@@ -11,8 +11,14 @@ function SignIn() {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const login = useSelector(selectLogin);
-
-
+    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        if (login.isConnected) {
+            navigate("/profile");
+        }
+    
+    },[login, navigate])
 
     return (
         <main className="main main-sign-in bg-dark">
