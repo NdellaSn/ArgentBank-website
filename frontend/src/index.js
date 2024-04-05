@@ -7,10 +7,13 @@ import Footer from './components/Footer';
 import './index.css'
 import SignIn from './pages/sign-in';
 import User from './pages/User';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
   <React.StrictMode>
     <Router>
       <Header />
@@ -22,5 +25,6 @@ root.render(
       <Footer />
     </Router>
   </React.StrictMode>
+  </Provider>
 );
 
