@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { selectLogin } from "../utils/selectors";
+import { getUser } from "./user";
 
 export const onLogin = (username, password) => {
 
     return async (dispatch, getState) => {
         const urlServer = "http://localhost:3001/api/v1"
 
-        if (selectLogin(getState()).isConnected) {
+        if (selectLogin(getState()).isConnected) { // vérifie si la personne es deja connecté
             return;
         }
 
@@ -28,6 +29,7 @@ export const onLogin = (username, password) => {
                 },
                 body: requestBody,
             })
+            
             const responseData = await reponse.json()
             if (reponse.status === 200) {
                 const token = responseData.body.token

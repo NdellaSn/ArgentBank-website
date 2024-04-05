@@ -2,26 +2,25 @@ import logo from '../../assets/img/argentBankLogo.png'
 import { Link } from "react-router-dom";
 import './Header.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLogin } from '../../utils/selectors';
+import { selectLogin, selectUserProfile } from '../../utils/selectors';
 import { singOut } from '../../features/login';
+import { useEffect } from 'react';
+import { getUser } from '../../features/user';
 
 function Header() {
 
-  const urlServer = "http://localhost:3001/api/v1"
-
-  const getUser = async ()=>{
-      const reponse = await fetch(urlServer + "/user/profile", {
-                method: 'POST',
-                headers: {
-                    'Authorization': "Bearer " + login.token
-                }
-            });
-
-          console.log(reponse);
-  }
 
   const login = useSelector(selectLogin)
+  const profile = useSelector(selectUserProfile)
   const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    if(login.isConnected)
+    {
+      dispatch(getUser)
+    }
+  }, [dispatch, login])
 
   return (
     <nav className="main-nav">
@@ -38,7 +37,7 @@ function Header() {
           login.isConnected &&
           <>
             <Link className="main-nav-item" to="/login">
-              <i className="fa fa-user-circle"></i> Tony
+              <i className="fa fa-user-circle"></i> {profile?.firstName}
             </Link>
 
             <Link onClick={() => dispatch(singOut())} className="main-nav-item">

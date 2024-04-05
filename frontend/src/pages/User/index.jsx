@@ -1,28 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './User.css'
-import { selectLogin } from '../../utils/selectors';
+import { selectLogin, selectUserProfile } from '../../utils/selectors';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Acount from '../../components/Acount';
+import { getUser } from '../../features/user';
 
 
 
 function User() {
   const login = useSelector(selectLogin);
   const navigate = useNavigate();
+  const profile = useSelector(selectUserProfile)
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!login.isConnected) {
       navigate("/login");
     }
+    dispatch(getUser)
 
-  }, [login, navigate])
+  }, [login, navigate, dispatch])
 
 
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{profile?.firstName} {profile?.lastName}</h1>
         <button className="edit-button">Edit Name</button>
       </div>
       <h2 className="sr-only">Accounts</h2>
