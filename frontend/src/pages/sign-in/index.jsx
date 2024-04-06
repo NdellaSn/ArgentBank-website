@@ -28,11 +28,11 @@ function SignIn() {
                 <form>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
-                        <input type="text" id="username" autoComplete="current-username" onKeyUp={(e) => setUsername(e.target.value)} />
+                        <input type="text" id="username" autoComplete="current-username" onChange={(e) => setUsername(e.target.value)} />
                     </div>
                     <div className="input-wrapper">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" autoComplete="current-password" onKeyUp={(e) => setPassword(e.target.value)} />
+                        <input type="password" id="password" autoComplete="current-password" onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <div className="input-remember">
                         <input type="checkbox" id="remember-me" />

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { selectLogin } from "../utils/selectors";
-import { getUser } from "./user";
 
 export const onLogin = (username, password) => {
 
@@ -29,7 +28,7 @@ export const onLogin = (username, password) => {
                 },
                 body: requestBody,
             })
-            
+
             const responseData = await reponse.json()
             if (reponse.status === 200) {
                 const token = responseData.body.token

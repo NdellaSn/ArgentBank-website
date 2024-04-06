@@ -1,0 +1,177 @@
+openapi: 3.0.3
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: 1.0.11
+servers:
+  - url: http://localhost:3001/api/v1
+paths:
+  /categries:
+    get:
+      tags:
+        - categories
+      summary: ''
+      description: Retourne la liste des trasactions
+      operationId: getCategories
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/category'
+        '400':
+          description: Invalid parameter
+        '401':
+          description: 'Unauthorized '
+        '500':
+          description: Internal Error
+  /user/accounts:
+    get:
+      tags:
+        - account
+      summary: ''
+      description: retourne la liste des comptes du user
+      operationId: getAcount
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/accountDetails'
+        '400':
+          description: Invalid parameter
+        '401':
+          description: 'Unauthorized '
+        '500':
+          description: Internal Error
+  /user/account/{accountId}:
+    get:
+      tags:
+        - account
+      summary: ''
+      description: ' account details trasactions'
+      operationId: getDetailAccount
+      parameters:
+        - name: accountId
+          in: path
+          description: ID of account
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountDetails'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: compte introuvable
+        '500':
+          description: Internal Error
+  /user/transaction:
+    put:
+      tags:
+        - account
+      summary: ''
+      description: ' modification de trasaction'
+      operationId: putTrasaction
+      parameters:
+        - name: transaction
+          in: query
+          description: transaction à modifier
+          required: false
+          schema:
+            $ref: '#/components/schemas/transaction'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/transaction'
+        '401':
+          description: 'Unauthorized '
+        '404':
+          description: compte introuvable
+        '500':
+          description: Internal Error
+components:
+  schemas:
+    account:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        amount:
+          type: number
+      xml:
+        name: account
+    accountDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        amount:
+          type: number
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/transaction'
+      xml:
+        name: accountDetails
+    transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        description:
+          type: string
+        amount:
+          type: number
+        balance:
+          type: number
+        transactionType:
+          type: string
+        category:
+          $ref: '#/components/schemas/category'
+        note:
+          type: string
+      xml:
+        name: transaction
+    category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      xml:
+        name: category
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
